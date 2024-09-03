@@ -3,10 +3,12 @@ const express = require('express');
 require('dotenv').config();
 const port = process.env.PORT;
 const connectDB = require('./config/db');
+const cors = require('cors');
 
 connectDB();
 
 const app = express();
+app.use(cors());
 
 // Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
