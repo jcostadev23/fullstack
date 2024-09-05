@@ -8,7 +8,12 @@ const cors = require('cors');
 connectDB();
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: ['http://localhost:5000', 'http://localhost:3000'],
+    credentials: true,
+  })
+);
 
 // Static Folder
 app.use(express.static(path.join(__dirname, 'public')));

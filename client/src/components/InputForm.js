@@ -4,6 +4,7 @@ import IdeasList from './IdeasList';
 class InputForm {
   constructor() {
     this._formModal = document.getElementById('form-modal');
+    this._ideasList = new IdeasList();
   }
 
   addEventListener() {
@@ -19,9 +20,8 @@ class InputForm {
       username: this._form.elements.username.value,
     };
 
-    const result = await createIdea(idea);
-    const ideasList = new IdeasList([result.data]);
-    ideasList.render();
+    const response = await createIdea(idea);
+    this._ideasList.addIdeaToList(response);
 
     (this._form.elements.tag.value = ''),
       (this._form.elements.text.value = ''),
@@ -49,7 +49,7 @@ class InputForm {
               <option value="business">Business</option>
               <option value="education">Education</option>
               <option value="technology">Technology</option>
-              <option value="invention">Invention</option>
+              <option value="inventions">Inventions</option>
             </select>
           </div>
           <button class="btn" type="submit" id="submit">Submit</button>
