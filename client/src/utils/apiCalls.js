@@ -25,4 +25,19 @@ async function createIdea(idea) {
   }
 }
 
-export { getIdeas, createIdea };
+async function deleteIdea(ideaId) {
+  try {
+    const result = await fetch(
+      `http://localhost:5000/api/ideas/delete/${ideaId}`,
+      {
+        method: 'DELETE',
+      }
+    );
+    const data = await result.json();
+    return data;
+  } catch (error) {
+    console.log('Error:', error);
+  }
+}
+
+export { getIdeas, createIdea, deleteIdea };

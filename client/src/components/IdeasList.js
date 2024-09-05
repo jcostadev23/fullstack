@@ -9,7 +9,7 @@ class IdeasList {
       .map((idea) => {
         return `
         <div class="card">
-          <button class="delete"><i class="fas fa-times"></i></button>
+          <button data-id=${idea._id} class="delete"><i class="fas fa-times"></i></button>
           <h3>
             ${idea.text}
           </h3>
