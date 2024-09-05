@@ -25,9 +25,7 @@ class IdeasList {
         const tagClass = this.getTagClass(idea?.tag);
         return `
         <div class="card">
-          <button data-id=${
-            idea?._id
-          } class="delete"><i class="fas fa-times"></i></button>
+          <button data-id=${idea?._id} class="delete"><i class="fas fa-times"></i></button>
           <h3>
             ${idea?.text ?? ''}
           </h3>
