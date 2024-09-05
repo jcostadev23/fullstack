@@ -9,6 +9,7 @@ class InputForm {
 
   onSubmit(e) {
     e.preventDefault();
+
     const idea = {
       tag: this._form.elements.tag.value,
       text: this._form.elements.text.value,
@@ -34,7 +35,15 @@ class InputForm {
           </div>
           <div class="form-control">
             <label for="tag">Tag</label>
-            <input type="text" name="tag" id="tag" />
+            <select required class="form-control" name="tag" id="tag">
+              <option value=""></option>
+              <option value="health">Health</option>
+              <option value="software">Software</option>
+              <option value="business">Business</option>
+              <option value="education">Education</option>
+              <option value="technology">Technology</option>
+              <option value="invention">Invention</option>
+            </select>
           </div>
           <button class="btn" type="submit" id="submit">Submit</button>
         </form>`;
