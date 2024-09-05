@@ -3,20 +3,19 @@ import IdeasList from './components/IdeasList';
 import InputForm from './components/InputForm';
 import Modal from './components/Modal';
 import './css/style.css';
-import { getIdeas } from './utils/getData';
+import { getIdeas } from './utils/apiCalls';
 
 const modal = new Modal();
 const inputForm = new InputForm();
-inputForm.render();
 
-async function getData() {
-  try {
-    const result = await getIdeas();
-    const ideasList = new IdeasList(result.data);
-    ideasList.render();
-  } catch (error) {
-    console.log('Error:', error);
+(async () => {
+  const result = await getIdeas();
+  if (!result) {
+    return;
   }
-}
 
-getData();
+  const ideasList = new IdeasList(result.data);
+  ideasList.render();
+})();
+
+inputForm.render();
