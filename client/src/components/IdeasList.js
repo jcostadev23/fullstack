@@ -1,9 +1,11 @@
+import { getIdeas } from '../utils/apiCalls';
 import formatDate from '../utils/dateFormat';
 
 class IdeasList {
-  constructor(ideas) {
+  constructor() {
     this._ideaList = document.getElementById('idea-list');
-    this._ideas = ideas;
+    this._ideas = [];
+    this.getIdeas();
 
     this._validTags = new Set();
     this._validTags.add('health');
@@ -14,8 +16,19 @@ class IdeasList {
     this._validTags.add('inventions');
   }
 
+  async getIdeas() {
+    const result = await getIdeas();
+    this._ideas = result.data;
+    this.render();
+  }
+
+  addIdeaToList(idea) {
+    this._ideas.push(idea);
+    this.render();
+  }
+
   getTagClass(tag) {
-    tag = tag.toLowerCase();
+    tag = tag?.toLowerCase();
     return this._validTags.has(tag) ? `tag-${tag}` : '';
   }
 
@@ -25,11 +38,13 @@ class IdeasList {
         const tagClass = this.getTagClass(idea?.tag);
         return `
         <div class="card">
-          <button data-id=${idea._id} class="delete"><i class="fas fa-times"></i></button>
+          <button data-id=${
+            idea._id
+          } class="delete"><i class="fas fa-times"></i></button>
           <h3>
             ${idea?.text ?? ''}
           </h3>
-          <p class="tag ${tagClass}" >${idea?.tag.toUpperCase()}</p>
+          <p class="tag ${tagClass}" >${idea?.tag?.toUpperCase()}</p>
           <p>
             Posted on <span class="date">${formatDate(idea?.date)}</span> by
             <span class="author">${idea?.username}</span>
