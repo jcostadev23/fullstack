@@ -38,17 +38,26 @@ router.post('/', async (req, res) => {
 
 router.put('/edit/:id', async (req, res) => {
   try {
-    const updatedIdea = await Idea.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: {
-          text: req.body.text,
-          tag: req.body.tag,
+    const idea = await Idea.findById(req.params.id);
+
+    if (idea.username === req.body.username) {
+      const updatedIdea = await Idea.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: {
+            text: req.body.text,
+            tag: req.body.tag,
+          },
         },
-      },
-      { new: true }
-    );
-    res.json({ success: true, data: updatedIdea });
+        { new: true }
+      );
+      return res.json({ success: true, data: updatedIdea });
+    }
+
+    res.status(403).json({
+      success: false,
+      error: 'You don`t have permission to Update this idea',
+    });
   } catch (error) {
     console.log('Error do update', error);
     res.status(500).json({ success: false, error: 'Something went wrong' });
@@ -57,8 +66,17 @@ router.put('/edit/:id', async (req, res) => {
 
 router.delete('/delete/:id', async (req, res) => {
   try {
-    await Idea.findByIdAndDelete(req.params.id);
-    res.json({ success: true, data: {}, messege: 'Deleted' });
+    const idea = await Idea.findById(req.params.id);
+
+    if (idea.username === req.body.username) {
+      await Idea.findByIdAndDelete(req.params.id);
+      return res.json({ success: true, data: {}, messege: 'Deleted' });
+    }
+
+    res.status(403).json({
+      success: false,
+      error: 'You don`t have permission to Delete this idea',
+    });
   } catch (error) {
     console.log('Error do update', error);
     res.status(500).json({ success: false, error: 'Something went wrong' });
