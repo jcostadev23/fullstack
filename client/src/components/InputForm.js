@@ -14,6 +14,17 @@ class InputForm {
   async onSubmit(e) {
     e.preventDefault();
 
+    if (
+      !this._form.elements.text.value ||
+      !this._form.elements.tag.value ||
+      !this._form.elements.username.value
+    ) {
+      alert('Please enter all fields');
+      return;
+    }
+
+    localStorage.setItem('username', this._form.elements.username.value);
+
     const idea = {
       tag: this._form.elements.tag.value,
       text: this._form.elements.text.value,
@@ -23,10 +34,12 @@ class InputForm {
     const response = await createIdea(idea);
     this._ideasList.addIdeaToList(response);
 
-    (this._form.elements.tag.value = ''),
-      (this._form.elements.text.value = ''),
-      (this._form.elements.username.value = ''),
-      document.dispatchEvent(new Event('closeModal'));
+    this._form.elements.tag.value = '';
+    this._form.elements.text.value = '';
+    this._form.elements.username.value = '';
+    document.dispatchEvent(new Event('closeModal'));
+
+    this.render();
   }
 
   render() {
@@ -34,7 +47,9 @@ class InputForm {
         <form id="idea-form">
           <div class="form-control">
             <label for="idea-text">Enter a Username</label>
-            <input type="text" name="username" id="username" />
+            <input type="text" name="username" id="username" value="${
+              localStorage.getItem('username') ?? ''
+            }"/>
           </div>
           <div class="form-control">
             <label for="idea-text">What's Your Idea?</label>
