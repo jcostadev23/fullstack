@@ -26,11 +26,16 @@ async function createIdea(idea) {
 }
 
 async function deleteIdea(ideaId) {
+  const username = localStorage.getItem('username') ?? '';
   try {
     const result = await fetch(
       `http://localhost:5000/api/ideas/delete/${ideaId}`,
       {
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username }),
       }
     );
     const data = await result.json();

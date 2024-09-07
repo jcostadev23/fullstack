@@ -32,7 +32,7 @@ class InputForm {
     };
 
     const response = await createIdea(idea);
-    this._ideasList.addIdeaToList(response);
+    this._ideasList.addIdeaToList(response.data);
 
     this._form.elements.tag.value = '';
     this._form.elements.text.value = '';
